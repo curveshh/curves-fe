@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cài pnpm trước
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      # Sau đó mới setup Node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm --version
+      - run: node --version
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build

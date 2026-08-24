@@ -1,0 +1,16 @@
+export const API = {
+  LOGIN: "/auth/login",
+  LOGOUT: "/auth/logout",
+  BANNER: "/banners",
+  CATEGORY: "/categories",
+  NEWS: "/news",
+  NEWS_LIST: "/news/list",
+  CHECK_NEWS_SLUG: "/news/check-slug",
+  UPLOAD_IMAGES: "/uploads/images",
+  DETAIL_NEWS_BY_SLUG: "/news/slug/:slug",
+  BADGE_OPTIONS: "/news/badge-options",
+  PROMOTION: "/promotion",
+  PROMOTION_LIST: "/promotion/all",
+  PROMOTION_DETAILS: "/promotion/details/:id",
+  PROMOTION_HOME: "/promotion/home",
+};
