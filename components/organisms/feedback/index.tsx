@@ -15,7 +15,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, Star, UploadCloud, Users, X } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { SubmitEvent, useRef, useState } from "react";
 import { ErrorText } from "./ErrorText";
 import { SectionTitle } from "./SectionTitle";
 
@@ -50,39 +50,70 @@ const initialForm = {
   consent: false,
 };
 
+type ImageItem = {
+  id: string;
+  src: string;
+  name: string;
+};
+
+type Rating = 0 | 1 | 2 | 3 | 4 | 5;
+
+const RATINGS: Rating[] = [0, 1, 2, 3, 4, 5];
+
 export default function FeedbackForm() {
   const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState({});
-  const [rating, setRating] = useState(0);
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    club: "",
+    story: "",
+  });
+  const [rating, setRating] = useState<Rating>(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
   const [dragOver, setDragOver] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const update = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
+  const update = (key: string) => (value: boolean | string) =>
+    setForm((f) => ({ ...f, [key]: value }));
 
-  const handleFiles = (fileList) => {
+  const handleFiles = (fileList: File[]) => {
     const files = Array.from(fileList).filter((f) =>
       f.type.startsWith("image/"),
     );
     files.forEach((file) => {
       const reader = new FileReader();
+
       reader.onload = (e) => {
+        const src = e.target?.result;
+
+        if (typeof src !== "string") return;
+
         setImages((prev) => [
           ...prev,
-          { id: crypto.randomUUID(), src: e.target.result, name: file.name },
+          {
+            id: crypto.randomUUID(),
+            src,
+            name: file.name,
+          },
         ]);
       };
+
       reader.readAsDataURL(file);
     });
   };
 
-  const removeImage = (id) =>
+  const removeImage = (id: string) =>
     setImages((prev) => prev.filter((img) => img.id !== id));
 
   const validate = () => {
-    const next = {};
+    const next = {
+      name: "",
+      phone: "",
+      club: "",
+      story: "",
+    };
     if (!form.name.trim()) next.name = "Vui lòng nhập họ và tên";
     if (!/^[0-9+\s]{8,15}$/.test(form.phone.trim()))
       next.phone = "Vui lòng nhập số điện thoại hợp lệ";
@@ -92,14 +123,19 @@ export default function FeedbackForm() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) setSubmitted(true);
   };
 
   const resetForm = () => {
     setForm(initialForm);
-    setErrors({});
+    setErrors({
+      name: "",
+      phone: "",
+      club: "",
+      story: "",
+    });
     setRating(0);
     setImages([]);
     setSubmitted(false);
@@ -233,7 +269,7 @@ export default function FeedbackForm() {
                         <Label>Bạn đánh giá Curves như thế nào?</Label>
                         <div className="flex items-center gap-3">
                           <div className="flex gap-1.5">
-                            {[1, 2, 3, 4, 5].map((n) => (
+                            {RATINGS.map((n) => (
                               <button
                                 key={n}
                                 type="button"
@@ -252,7 +288,7 @@ export default function FeedbackForm() {
                               </button>
                             ))}
                           </div>
-                          <span className="min-w-[80px] text-sm font-bold text-purple-700">
+                          <span className="min-w-20 text-sm font-bold text-purple-700">
                             {rating ? RATING_LABELS[rating] : "Chưa đánh giá"}
                           </span>
                         </div>
@@ -315,7 +351,7 @@ export default function FeedbackForm() {
                           onDrop={(e) => {
                             e.preventDefault();
                             setDragOver(false);
-                            handleFiles(e.dataTransfer.files);
+                            handleFiles([...e.dataTransfer.files]);
                           }}
                           className={`cursor-pointer rounded-2xl border-2 border-dashed p-6 text-center transition-colors ${
                             dragOver
@@ -341,7 +377,11 @@ export default function FeedbackForm() {
                             accept="image/*"
                             multiple
                             className="hidden"
-                            onChange={(e) => handleFiles(e.target.files)}
+                            onChange={(e) => {
+                              if (e.target.files) {
+                                handleFiles(Array.from(e.target.files));
+                              }
+                            }}
                           />
                         </div>
 

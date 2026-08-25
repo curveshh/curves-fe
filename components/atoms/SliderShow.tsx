@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Banner } from "@/types/banner";
 
 export interface BannerSlide {
   image: string;
@@ -17,7 +18,7 @@ export interface BannerSlide {
 }
 
 interface PreviewBannerProps {
-  slides: BannerSlide[];
+  slides: Banner[];
   autoPlay?: boolean;
   interval?: number;
 }
@@ -84,9 +85,9 @@ export function SliderShow({
               )}
             >
               {/* Banner image */}
-              {slide.image && (
+              {slide.imageUrl && (
                 <Image
-                  src={slide.image}
+                  src={slide.imageUrl}
                   alt={slide.primaryText || "Banner"}
                   fill
                   priority={i === 0}

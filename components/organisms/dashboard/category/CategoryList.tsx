@@ -231,9 +231,9 @@ export const CategoryList = () => {
               onSelect={setCategorySelected}
               onToggle={() =>
                 setExpanded((current) =>
-                  current.includes(category.id)
-                    ? current.filter((item) => item !== category.id)
-                    : [...current, category.id],
+                  current.includes(String(category.id))
+                    ? current.filter((item) => item !== String(category.id))
+                    : [...current, String(category.id)],
                 )
               }
               onDelete={() => remove.mutate(String(category.id))}

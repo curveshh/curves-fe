@@ -243,6 +243,7 @@ export function PromotionForm({ initialValues = null }: Props) {
         <section className="col-span-2 lg:col-span-1 h-100 pb-4">
           <PromotionCard
             promo={{
+              id: Number(values.id),
               badge: values.badge,
               title: values.title || "",
               discount: values.discount,

@@ -1,4 +1,10 @@
-import { Dumbbell, Footprints, HeartPulse, PersonStanding } from "lucide-react";
+import {
+  Dumbbell,
+  Footprints,
+  HeartPulse,
+  LucideProps,
+  PersonStanding,
+} from "lucide-react";
 import React from "react";
 
 export default function CurvesCircuitSection() {
@@ -111,7 +117,7 @@ export default function CurvesCircuitSection() {
   );
 }
 
-function StepIcon({ icon }: { icon: React.ReactNode }) {
+function StepIcon({ icon }: { icon: React.ReactElement<LucideProps> }) {
   return (
     <div
       className="
@@ -123,12 +129,10 @@ function StepIcon({ icon }: { icon: React.ReactNode }) {
         shadow-[0_8px_25px_rgba(124,58,237,0.12)]
       "
     >
-      {React.isValidElement(icon)
-        ? React.cloneElement(icon as React.ReactElement, {
-            size: 36,
-            strokeWidth: 1.8,
-          })
-        : icon}
+      {React.cloneElement(icon, {
+        size: 36,
+        strokeWidth: 1.8,
+      })}
     </div>
   );
 }

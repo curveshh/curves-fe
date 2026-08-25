@@ -59,7 +59,15 @@ const NAV = [
   { icon: Settings, label: "Cài đặt" },
 ];
 
-const STATS = [
+type StatItem = {
+  label: string;
+  value: string;
+  delta: string;
+  icon: React.ElementType;
+  up: boolean;
+};
+
+const STATS: StatItem[] = [
   {
     label: "Tổng hội viên",
     value: "1,248",
@@ -99,6 +107,12 @@ const REVENUE = [
   { day: "11/06", value: 34 },
   { day: "12/06", value: 28 },
 ];
+
+type DonutMiniItem = {
+  name: string;
+  value: number;
+  color: string;
+};
 
 const CHECKIN = [
   { name: "Đã check-in", value: 64.2, color: "#22c55e" },
@@ -148,7 +162,13 @@ const AGE = [
 
 /* ---------------- small building blocks ---------------- */
 
-function StatCard({ stat, compact }) {
+function StatCard({
+  stat,
+  compact = false,
+}: {
+  stat: StatItem;
+  compact?: boolean;
+}) {
   const Icon = stat.icon;
   return (
     <Card className="border-purple-100 shadow-sm">
@@ -181,7 +201,15 @@ function StatCard({ stat, compact }) {
   );
 }
 
-function DonutMini({ data, size = 90, thickness = 14 }) {
+function DonutMini({
+  data,
+  size = 90,
+  thickness = 14,
+}: {
+  data: DonutMiniItem[];
+  size?: number;
+  thickness?: number;
+}) {
   return (
     <PieChart width={size} height={size}>
       <Pie
@@ -203,10 +231,10 @@ function DonutMini({ data, size = 90, thickness = 14 }) {
 
 /* ---------------- sidebar ---------------- */
 
-function Sidebar({ compact }) {
+function Sidebar({ compact }: { compact?: boolean }) {
   return (
     <aside
-      className={`flex h-full flex-col bg-gradient-to-b from-purple-950 to-purple-900 text-white ${compact ? "w-16" : "w-56"}`}
+      className={`flex h-full flex-col bg-linear-to-b from-purple-950 to-purple-900 text-white ${compact ? "w-16" : "w-56"}`}
     >
       <div
         className={`flex items-center gap-2 px-5 py-6 ${compact ? "justify-center px-0" : ""}`}
@@ -238,7 +266,7 @@ function Sidebar({ compact }) {
                   : "text-purple-200 hover:bg-white/5 hover:text-white"
               } ${compact ? "justify-center px-0" : ""}`}
             >
-              <Icon className="h-4 w-4 flex-shrink-0" />
+              <Icon className="h-4 w-4 shrink-0" />
               {!compact && <span>{item.label}</span>}
             </div>
           );
@@ -264,7 +292,7 @@ function Sidebar({ compact }) {
 
 function DesktopDashboard() {
   return (
-    <div className="flex h-[820px] w-full max-w-[1040px] overflow-hidden rounded-[28px] bg-white shadow-2xl shadow-purple-950/20 ring-1 ring-purple-100">
+    <div className="flex h-205 w-full max-w-260 overflow-hidden rounded-[28px] bg-white shadow-2xl shadow-purple-950/20 ring-1 ring-purple-100">
       <Sidebar />
       <div className="flex-1 overflow-y-auto bg-[#faf8fc] p-7">
         {/* topbar */}
@@ -361,7 +389,7 @@ function DesktopDashboard() {
                 Tình trạng check-in hôm nay
               </h3>
               <div className="flex items-center gap-4">
-                <div className="relative flex-shrink-0">
+                <div className="relative shrink-0">
                   <DonutMini data={CHECKIN} size={100} thickness={15} />
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-lg font-extrabold text-purple-950">
@@ -402,7 +430,7 @@ function DesktopDashboard() {
                 {SCHEDULE.map((s) => (
                   <div key={s.name} className="flex items-center gap-3">
                     <span
-                      className={`h-8 w-8 flex-shrink-0 rounded-full ${s.color}`}
+                      className={`h-8 w-8 shrink-0 rounded-full ${s.color}`}
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-xs font-semibold text-purple-950">
@@ -516,13 +544,13 @@ function DesktopDashboard() {
 
 function MobileDashboard() {
   return (
-    <div className="relative mx-auto h-[820px] w-[300px] flex-shrink-0 overflow-hidden rounded-[2.5rem] border-[8px] border-purple-950 bg-white shadow-2xl">
+    <div className="relative mx-auto h-205 w-75 shrink-0 overflow-hidden rounded-[2.5rem] border-8 border-purple-950 bg-white shadow-2xl">
       {/* notch */}
       <div className="absolute left-1/2 top-0 z-20 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-purple-950" />
 
       <div className="h-full overflow-y-auto bg-[#faf8fc] pb-6 pt-7">
         {/* header */}
-        <div className="rounded-b-3xl bg-gradient-to-br from-purple-900 to-purple-700 px-5 pb-6 pt-3 text-white">
+        <div className="rounded-b-3xl bg-linear-to-br from-purple-900 to-purple-700 px-5 pb-6 pt-3 text-white">
           <div className="mb-4 flex items-center justify-between">
             <div className="text-lg font-extrabold">
               Curves<span className="text-pink-300">.</span>
@@ -596,7 +624,7 @@ function MobileDashboard() {
                 {SCHEDULE.map((s) => (
                   <div key={s.name} className="flex items-center gap-2.5">
                     <span
-                      className={`h-7 w-7 flex-shrink-0 rounded-full ${s.color}`}
+                      className={`h-7 w-7 shrink-0 rounded-full ${s.color}`}
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[11px] font-semibold text-purple-950">
@@ -622,7 +650,7 @@ function MobileDashboard() {
                 Check-in hôm nay
               </h3>
               <div className="flex items-center gap-4">
-                <div className="relative flex-shrink-0">
+                <div className="relative shrink-0">
                   <DonutMini data={CHECKIN} size={72} thickness={11} />
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-xs font-extrabold text-purple-950">
@@ -664,7 +692,7 @@ function MobileDashboard() {
 export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#f4f2f7] p-6 lg:p-10">
-      <div className="mx-auto flex max-w-[1500px] flex-col items-start gap-8 xl:flex-row xl:justify-center">
+      <div className="mx-auto flex max-w-375 flex-col items-start gap-8 xl:flex-row xl:justify-center">
         <DesktopDashboard />
         <MobileDashboard />
       </div>

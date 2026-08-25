@@ -1,4 +1,5 @@
-import { AuthForm } from "@/components/auth/auth-form";
+import { RegisterForm } from "@/components/organisms/auth/RegisterForm";
+
 export default function RegisterPage() {
-  return <AuthForm mode="register" />;
+  return <RegisterForm />;
 }

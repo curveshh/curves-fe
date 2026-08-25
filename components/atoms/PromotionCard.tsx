@@ -22,7 +22,7 @@ export const PromotionCard = ({ promo }: Props) => {
   }, []);
 
   const parts = useMemo(
-    () => promo?.endDate && diffToParts(promo?.endDate),
+    () => (promo?.endDate && diffToParts(promo?.endDate)) || { expired: false },
     [promo.endDate, tick],
   );
 

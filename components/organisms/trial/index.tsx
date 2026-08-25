@@ -22,7 +22,7 @@ import {
   PartyPopper,
   Sparkles,
 } from "lucide-react";
-import { useState } from "react";
+import { SubmitEvent, useState } from "react";
 
 const CLUBS = [
   "Curves Quận 1",
@@ -68,13 +68,22 @@ const initialForm = {
 
 export default function TrialSignup() {
   const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    club: "",
+  });
   const [submitted, setSubmitted] = useState(false);
 
-  const update = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
+  const update = (key: string) => (value: boolean | string) =>
+    setForm((f) => ({ ...f, [key]: value }));
 
   const validate = () => {
-    const next = {};
+    const next = {
+      name: "",
+      phone: "",
+      club: "",
+    };
     if (!form.name.trim()) next.name = "Vui lòng nhập họ và tên";
     if (!/^[0-9+\s]{8,15}$/.test(form.phone.trim()))
       next.phone = "Vui lòng nhập số điện thoại hợp lệ";
@@ -83,21 +92,25 @@ export default function TrialSignup() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) setSubmitted(true);
   };
 
   const resetForm = () => {
     setForm(initialForm);
-    setErrors({});
+    setErrors({
+      name: "",
+      phone: "",
+      club: "",
+    });
     setSubmitted(false);
   };
 
   return (
     <div className="min-h-screen bg-violet-50">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-950 via-purple-900 to-purple-700 px-6 pt-20 pb-28 text-white">
+      <section className="relative overflow-hidden bg-linear-to-br from-purple-950 via-purple-900 to-purple-700 px-6 pt-20 pb-28 text-white">
         <div className="pointer-events-none absolute -top-24 left-1/4 h-72 w-72 rounded-full bg-fuchsia-500 opacity-20 blur-3xl" />
         <div className="pointer-events-none absolute -right-10 top-10 h-64 w-64 rounded-full bg-purple-400 opacity-20 blur-3xl" />
 
@@ -325,7 +338,7 @@ export default function TrialSignup() {
                     <Button
                       type="submit"
                       size="lg"
-                      className="w-full rounded-full bg-gradient-to-r from-purple-700 to-purple-500 text-base font-bold shadow-lg shadow-purple-300 hover:from-purple-800 hover:to-purple-600"
+                      className="w-full rounded-full bg-linear-to-r from-purple-700 to-purple-500 text-base font-bold shadow-lg shadow-purple-300 hover:from-purple-800 hover:to-purple-600"
                     >
                       Đăng ký tập thử
                       <ArrowRight className="ml-1 h-4 w-4" />
@@ -338,7 +351,7 @@ export default function TrialSignup() {
                 </>
               ) : (
                 <div className="py-6 text-center">
-                  <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-700 to-purple-500 shadow-lg shadow-purple-300">
+                  <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-purple-700 to-purple-500 shadow-lg shadow-purple-300">
                     <PartyPopper className="h-9 w-9 text-white" />
                   </div>
                   <h2 className="text-2xl font-semibold text-purple-950">
@@ -392,7 +405,7 @@ export default function TrialSignup() {
 
           {/* SIDE COLUMN */}
           <div className="space-y-6">
-            <Card className="relative overflow-hidden rounded-3xl border-none bg-gradient-to-br from-purple-700 to-purple-950 shadow-xl">
+            <Card className="relative overflow-hidden rounded-3xl border-none bg-linear-to-br from-purple-700 to-purple-950 shadow-xl">
               <CardContent className="relative flex aspect-square items-end p-0">
                 <svg
                   className="absolute inset-0 h-full w-full"
@@ -437,7 +450,7 @@ export default function TrialSignup() {
                 </svg>
 
                 <div className="relative z-10 m-5 flex w-[calc(100%-2.5rem)] items-center gap-3 rounded-2xl bg-white/95 p-4 shadow-lg backdrop-blur">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-300">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-amber-400 to-amber-300">
                     <Gift className="h-5 w-5 text-purple-900" />
                   </div>
                   <div>
@@ -463,7 +476,7 @@ export default function TrialSignup() {
                       key={label}
                       className="flex items-center gap-3 text-sm font-semibold text-purple-950"
                     >
-                      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-violet-50 text-purple-700">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-violet-50 text-purple-700">
                         <Icon className="h-4 w-4" />
                       </span>
                       {label}

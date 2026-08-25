@@ -6,10 +6,14 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import type { UniqueIdentifier } from "@dnd-kit/core";
+import { ReactNode } from "react";
+
+type SortableListeners = ReturnType<typeof useSortable>["listeners"];
 
 type Props = {
   id: UniqueIdentifier;
-  children: React.ReactNode;
+  children:
+    ReactNode | ((props: { listeners: SortableListeners }) => ReactNode);
   className?: string;
 };
 
@@ -37,11 +41,7 @@ export function SortableRow({ id, children, className }: Props) {
       className={`${className ?? ""} ${isDragging ? "z-50 opacity-50" : ""}`}
       {...attributes}
     >
-      {typeof children === "function"
-        ? children({
-            listeners,
-          })
-        : children}
+      {typeof children === "function" ? children({ listeners }) : children}
     </div>
   );
 }
