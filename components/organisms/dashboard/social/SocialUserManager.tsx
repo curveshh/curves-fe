@@ -13,7 +13,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Input,
   Label,
   Textarea,
 } from "@/components/ui";
@@ -25,18 +24,6 @@ import { Facebook, Pencil, Plus, Send, Trash2, Users } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { SocialForm } from "./form";
-
-type SocialUser = {
-  id: string;
-  name: string;
-  contact: string;
-  note: string;
-  createdAt: string;
-};
-
-type FormValues = Omit<SocialUser, "id" | "createdAt">;
-
-const EMPTY_FORM: FormValues = { name: "", contact: "", note: "" };
 
 const CHANNEL_INFO = {
   FACEBOOK: {
@@ -55,20 +42,10 @@ const CHANNEL_INFO = {
 
 export default function SocialUserManager({ channel }: { channel: Channel }) {
   const info = CHANNEL_INFO[channel];
-  const [users, setUsers] = useState<SocialUser[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<SocialUser[]>([]);
-  const [form, setForm] = useState<FormValues>(EMPTY_FORM);
-  const [editingUser, setEditingUser] = useState<SocialUser | null>(null);
-  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState<Customer[]>([]);
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { list } = useCustomer(channel);
-
-  const closeUserDialog = () => {
-    setIsUserDialogOpen(false);
-    setEditingUser(null);
-    setForm(EMPTY_FORM);
-  };
 
   const sendBulkMessage = () => {
     if (!message.trim()) {
@@ -240,69 +217,6 @@ export default function SocialUserManager({ channel }: { channel: Channel }) {
           </div>
         </Card>
       </div>
-
-      <Dialog
-        open={isUserDialogOpen}
-        onOpenChange={(open) =>
-          open ? setIsUserDialogOpen(true) : closeUserDialog()
-        }
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {editingUser
-                ? "Cập nhật người dùng"
-                : `Thêm người dùng ${info.label}`}
-            </DialogTitle>
-            <DialogDescription>
-              Thông tin này được dùng để nhận diện người nhận tin nhắn.
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={saveUser} className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="social-name">Tên người dùng</Label>
-              <Input
-                id="social-name"
-                value={form.name}
-                onChange={(event) =>
-                  setForm({ ...form, name: event.target.value })
-                }
-                placeholder="Nguyễn Thị A"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="social-contact">{info.contactLabel}</Label>
-              <Input
-                id="social-contact"
-                value={form.contact}
-                onChange={(event) =>
-                  setForm({ ...form, contact: event.target.value })
-                }
-                placeholder={info.contactPlaceholder}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="social-note">Ghi chú</Label>
-              <Textarea
-                id="social-note"
-                value={form.note}
-                onChange={(event) =>
-                  setForm({ ...form, note: event.target.value })
-                }
-                placeholder="Ví dụ: Quan tâm gói tập 3 tháng"
-              />
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={closeUserDialog}>
-                Hủy
-              </Button>
-              <Button type="submit" className={info.color}>
-                {editingUser ? "Lưu thay đổi" : "Thêm người dùng"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={isMessageDialogOpen} onOpenChange={setIsMessageDialogOpen}>
         <DialogContent>
