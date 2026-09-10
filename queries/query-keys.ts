@@ -4,4 +4,6 @@ export const QUERY_KEYS = {
   NEWS_BY_SLUG: (slug: string) => ["slug", slug],
   BANNERS: ["banners"],
   PROMOTIONS: (keyword: string) => ["promotion", keyword],
+  CONTACT: ["contact"],
+  CUSTOMER: ["customer"],
 };

@@ -21,7 +21,7 @@ export const HomeComponent = ({
   return (
     <main>
       <BannerHome banners={banners} />
-      <section className="grid grid-cols-4 gap-4 p-4">
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4">
         <section
           className={`"col-span-4  order-2 lg:order-1" ${promotion ? "lg:col-span-3" : "lg:col-span-4"}`}
         >

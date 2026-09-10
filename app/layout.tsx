@@ -1,6 +1,7 @@
 import { Providers } from "@/components/providers";
-import type { Metadata } from "next";
 import { siteName, siteUrl } from "@/lib/seo";
+import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,7 +37,10 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

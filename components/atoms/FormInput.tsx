@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { FieldPath, FieldValues, useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -6,6 +7,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Textarea,
 } from "../ui";
 
 interface BaseFormInputProps<T extends FieldValues> {
@@ -13,6 +15,7 @@ interface BaseFormInputProps<T extends FieldValues> {
   label?: string;
   placeholder?: string;
   type?: string;
+  isRequire?: boolean;
 }
 
 export function BaseFormInput<T extends FieldValues>({
@@ -20,6 +23,8 @@ export function BaseFormInput<T extends FieldValues>({
   label,
   placeholder,
   type = "text",
+  isRequire = false,
+  ...props
 }: BaseFormInputProps<T>) {
   const { control } = useFormContext<T>();
 
@@ -27,15 +32,42 @@ export function BaseFormInput<T extends FieldValues>({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem>
-          {label && <FormLabel>{label}</FormLabel>}
+      render={({ field, fieldState }) => (
+        <FormItem className="relative">
+          {label && (
+            <FormLabel>
+              {label}
+              {isRequire && <span className="text-red-400">*</span>}
+            </FormLabel>
+          )}
 
           <FormControl>
-            <Input {...field} type={type} placeholder={placeholder} />
+            {type === "textarea" ? (
+              <Textarea
+                {...field}
+                placeholder={placeholder}
+                rows={5}
+                className={cn(
+                  fieldState.error &&
+                    "border-red-500 focus-visible:ring-red-500",
+                )}
+                {...props}
+              />
+            ) : (
+              <Input
+                {...field}
+                type={type}
+                placeholder={placeholder}
+                className={cn(
+                  fieldState.error &&
+                    "border-red-500 focus-visible:ring-red-500",
+                )}
+                {...props}
+              />
+            )}
           </FormControl>
 
-          <FormMessage />
+          <FormMessage className="text-red-500 text-sm -bottom-5 absolute" />
         </FormItem>
       )}
     />

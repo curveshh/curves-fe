@@ -611,3 +611,15 @@ input {
     padding: 50px 0;
   }
 }
+
+.base-swiper-pagination {
+  @apply flex items-center justify-center gap-2;
+}
+
+.base-swiper-pagination .swiper-pagination-bullet {
+  @apply m-0 h-2 w-2 rounded-full opacity-100;
+}
+
+.base-swiper-pagination .swiper-pagination-bullet-active {
+  @apply w-6;
+}

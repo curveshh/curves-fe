@@ -1,8 +1,8 @@
 import { HomeComponent } from "@/components/organisms/Home";
-import { getBannerList } from "@/lib/api/banner";
 import { getNewsList } from "@/lib/api/news";
-import { getPromotionHome } from "@/lib/api/promotion";
 import { createPageMetadata } from "@/lib/seo";
+import { getBannerList } from "@/services/banner";
+import { getPromotionHome } from "@/services/promotion";
 import { Metadata } from "next";
 
 export const metadata: Metadata = createPageMetadata({

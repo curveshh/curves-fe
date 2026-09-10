@@ -4,24 +4,25 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-type DialogSize = "sm" | "md" | "lg" | "xl" | "2xl";
+type DialogSize = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 
 interface Props {
   trigger: ReactNode;
   title?: ReactNode;
   description?: ReactNode;
   content: ReactNode;
-
+  footer?: React.ReactNode;
   size?: DialogSize;
   scrollable?: boolean;
   stickyHeader?: boolean;
-
+  formId?: string;
   className?: string;
   contentClassName?: string;
 }
@@ -32,6 +33,8 @@ const sizeClasses: Record<DialogSize, string> = {
   lg: "sm:max-w-lg",
   xl: "sm:max-w-xl",
   "2xl": "sm:max-w-2xl",
+  "3xl": "sm:max-w-3xl",
+  "4xl": "sm:max-w-4xl",
 };
 
 export const BaseDialog = ({
@@ -39,11 +42,12 @@ export const BaseDialog = ({
   title,
   description,
   content,
-  size = "md",
+  size = "xl",
   scrollable = false,
   stickyHeader = false,
   className,
   contentClassName,
+  footer,
 }: Props) => {
   const hasHeader = title || description;
 
@@ -53,9 +57,9 @@ export const BaseDialog = ({
 
       <DialogContent
         className={cn(
-          "bg-white",
+          "flex flex-col bg-white",
           sizeClasses[size],
-          scrollable && "max-h-[90vh] overflow-hidden",
+          scrollable && "max-h-[90vh]",
           className,
         )}
       >
@@ -79,6 +83,15 @@ export const BaseDialog = ({
         >
           {content}
         </div>
+
+        {/* Footer */}
+        {footer && (
+          <DialogFooter
+            className={cn(stickyHeader && "sticky bottom-0 z-10 bg-white pt-4")}
+          >
+            {footer}
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   );

@@ -28,12 +28,3 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-
-      - name: Upload to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: apps/web/out/
-          server-dir: /public_html/

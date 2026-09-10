@@ -1,5 +1,5 @@
-import FeedbackForm from "@/components/organisms/feedback";
+import { FeedbackList } from "@/components/organisms/feedback/List";
 
 export default function FeedBackPage() {
-  return <FeedbackForm />;
+  return <FeedbackList />;
 }
