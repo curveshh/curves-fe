@@ -1,10 +1,10 @@
 import { Facebook } from "lucide-react";
 import Link from "next/link";
 
-export const FacebookLink = () => {
+export const FacebookLink = ({ link }: { link?: string }) => {
   return (
     <Link
-      href="https://m.me/YOUR_PAGE_USERNAME"
+      href={link || ""}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat Facebook"

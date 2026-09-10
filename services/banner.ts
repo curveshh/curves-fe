@@ -1,5 +1,6 @@
 import { API } from "@/contants/api";
 import { http } from "@/lib/api/axios";
+import { baseFetch } from "@/lib/api/fetch";
 import { Banner } from "@/types/banner";
 import { BaseResponse } from "@/types/base";
 
@@ -31,3 +32,12 @@ export const bannerServices = {
     );
   },
 };
+
+export async function getBannerList() {
+  return baseFetch<BaseResponse<Banner[]>>(API.BANNER, {
+    next: {
+      revalidate: 300,
+      tags: ["banners"],
+    },
+  });
+}

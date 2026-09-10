@@ -18,7 +18,6 @@ export async function baseFetch<T>(
 
   if (!response.ok) {
     const error = await response.text();
-
     throw new Error(error || `API request failed: ${response.status}`);
   }
 

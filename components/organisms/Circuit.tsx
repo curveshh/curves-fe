@@ -5,6 +5,7 @@ import {
   LucideProps,
   PersonStanding,
 } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 export default function CurvesCircuitSection() {
@@ -14,11 +15,12 @@ export default function CurvesCircuitSection() {
       <div className="absolute inset-0 bg-linear-to-r from-white via-white/95 to-purple-50" />
 
       {/* Left image */}
-      <div className="absolute inset-y-0 left-0 w-[33%] overflow-hidden">
-        <img
+      <div className="absolute inset-y-0 left-0 w-85% md:w-[33%] overflow-hidden">
+        <Image
           src="/images/curves-workout.jpg"
           alt="Curves workout"
           className="h-full w-full object-cover"
+          fill
         />
 
         {/* Fade image into content */}
@@ -26,12 +28,12 @@ export default function CurvesCircuitSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 grid min-h-127 grid-cols-[36%_57%]">
+      <div className="relative z-10 grid min-h-127 grid-cols-1 md:grid-cols-[36%_57%]">
         {/* Left spacing for image */}
         <div />
 
         {/* Right content */}
-        <div className="flex items-center px-8 py-12 lg:px-12">
+        <div className="none md:flex items-center px-8 py-12 lg:px-12">
           <div className="grid w-full grid-cols-[minmax(260px,1fr)_minmax(320px,1fr)] items-center gap-6">
             {/* Text */}
             <div className="max-w-md">

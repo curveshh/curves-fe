@@ -1,5 +1,5 @@
 import { PromotionForm } from "@/components/organisms/promotion/promotionForm";
-import { getPromotionDetails } from "@/lib/api/promotion";
+import { getPromotionDetails } from "@/services/promotion";
 import { notFound } from "next/navigation";
 
 type Props = {

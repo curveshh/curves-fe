@@ -1,5 +1,6 @@
 import { API } from "@/contants/api";
 import { http } from "@/lib/api/axios";
+import { baseFetch } from "@/lib/api/fetch";
 import { Promotion } from "@/schemas/promotion";
 import { BaseResponse } from "@/types/base";
 import { SearchReqPromotion } from "@/types/promotion";
@@ -24,3 +25,22 @@ export const promotionService = {
     return await http.delete<BaseResponse<string>>(`${API.PROMOTION}/${id}`);
   },
 };
+
+export async function getPromotionDetails(id: number) {
+  return baseFetch<BaseResponse<Promotion>>(
+    API.PROMOTION_DETAILS.replace(":id", String(id)),
+    {
+      cache: "no-store",
+    },
+  );
+}
+
+export async function getPromotionHome() {
+  return baseFetch<BaseResponse<Promotion>>(API.PROMOTION_HOME, {
+    cache: "no-store",
+    next: {
+      revalidate: 500,
+      tags: ["promotion"],
+    },
+  });
+}

@@ -13,4 +13,7 @@ export const API = {
   PROMOTION_LIST: "/promotion/all",
   PROMOTION_DETAILS: "/promotion/details/:id",
   PROMOTION_HOME: "/promotion/home",
+  CONTACT: "/contact",
+  CUSTOMER: "/customer",
+  WEBHOOK_META: "/webhook-meta",
 };

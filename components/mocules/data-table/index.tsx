@@ -62,7 +62,7 @@ export function DataTable<TData extends RowData>({
   pageSize = 10,
   onPageChange,
 }: DataTableProps<TData>) {
-  console.log("data:", data);
+  const selectionSignatureRef = React.useRef<string | undefined>(undefined);
   const tableColumns = React.useMemo<
     ColumnDef<DataTableFeatures, TData, unknown>[]
   >(() => {
@@ -116,6 +116,10 @@ export function DataTable<TData extends RowData>({
   });
 
   React.useEffect(() => {
+    const signature = JSON.stringify(table.state.rowSelection);
+    if (selectionSignatureRef.current === signature) return;
+
+    selectionSignatureRef.current = signature;
     onRowSelectionChange?.(
       table.getSelectedRowModel().rows.map((row) => row.original),
     );

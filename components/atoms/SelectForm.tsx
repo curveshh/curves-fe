@@ -12,7 +12,7 @@ import {
 import { BaseFormField, BaseFormFieldProps } from "./FieldForm";
 
 type Option = {
-  value: string;
+  value: string | number;
   label: string;
   disabled?: boolean;
 };
@@ -21,7 +21,7 @@ type BaseFormSelectProps<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>,
 > = Omit<BaseFormFieldProps<TFieldValues, TName>, "children"> & {
-  options: Option[];
+  options: readonly Option[];
   placeholder?: string;
   disabled?: boolean;
 };
@@ -51,8 +51,9 @@ export function BaseFormSelect<
             {options.map((option) => (
               <SelectItem
                 key={option.value}
-                value={option.value}
+                value={String(option.value)}
                 disabled={option.disabled}
+                className="hover:bg-purple-50 hover:text-purple-950 cursor-pointer"
               >
                 {option.label}
               </SelectItem>
